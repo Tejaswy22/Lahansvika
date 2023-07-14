@@ -18,7 +18,7 @@ node{
     stage('git code checkout'){
         try{
             echo 'checkout the code from git repository'
-            git 'https://github.com/shubhamkushwah123/star-agile-insurance-project.git'
+            git "https://github.com/Tejaswy22/Lahansvika.git"
         }
         catch(Exception e){
             echo 'Exception occured in Git Code Checkout Stage'
@@ -35,20 +35,19 @@ node{
         sh "${mavenCMD} clean package"        
     }
     
-    stage('publish test reports'){
-        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Capstone-Project-Live-Demo/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+    stage('publish test reports'), reportDir: '/var/lib/jenkins/workspace/Insureme/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
     }
     
     stage('Containerize the application'){
         echo 'Creating Docker image'
-        sh "${dockerCMD} build -t shubhamkushwah123/insure-me:${tagName} ."
+        sh "${dockerCMD} build -t tejalucky/insureme2:1.0 ."
     }
     
     stage('Pushing it ot the DockerHub'){
         echo 'Pushing the docker image to DockerHub'
         withCredentials([string(credentialsId: 'dock-password', variable: 'dockerHubPassword')]) {
-        sh "${dockerCMD} login -u shubhamkushwah123 -p ${dockerHubPassword}"
-        sh "${dockerCMD} push shubhamkushwah123/insure-me:${tagName}"
+        sh "${dockerCMD} login -u tejalucky -p Reshvanth@2407"
+        sh "${dockerCMD} push tejalucky/insureme2:1.0"
             
         }
         
